@@ -2,9 +2,9 @@
     <string name="app_name" translatable="false">QR Code Manager</string>
     <string name="font_path" translatable="false">fonts/Poppins-Regular.ttf</string>
 
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string-array name="security_spinner_array">
+        <item>None</item>
+        <item>WEP</item>
+        <item>WPA / WPA2 PSK</item>
+    </string-array>
 </resources>

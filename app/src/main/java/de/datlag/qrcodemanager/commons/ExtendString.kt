@@ -46,8 +46,7 @@ fun String.subAfter(delimiter: String, ignoreCase: Boolean = false): String {
         this.substringAfter(delimiter)
     } else {
         val pattern = Pattern.compile(delimiter, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(this)
-        matcher.find()
+        val matcher = pattern.matcher(this).apply { find() }
         this.substring(matcher.end())
     }
 }

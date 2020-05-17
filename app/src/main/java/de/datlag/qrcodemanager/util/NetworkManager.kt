@@ -14,6 +14,7 @@ import de.datlag.qrcodemanager.commons.getWifiManager
 import de.datlag.qrcodemanager.commons.toLower
 import org.json.JSONObject
 
+@Suppress("DEPRECATION")
 class NetworkManager {
 
     fun saveNetwork(context: Context, json: JSONObject): Boolean {
@@ -36,7 +37,6 @@ class NetworkManager {
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun saveWifiConfig(context: Context, json: JSONObject, security: Int): Boolean {
         val wifiManager = context.getWifiManager()
         val connectivityManager = context.getConnectivityManager()
@@ -86,7 +86,6 @@ class NetworkManager {
             .build()
     }
 
-    @Suppress("DEPRECATION")
     private fun createWifiConfig(json: JSONObject, security: Int): WifiConfiguration {
         val ssid = json.getString("ssid")
         val password = json.getString("password")
