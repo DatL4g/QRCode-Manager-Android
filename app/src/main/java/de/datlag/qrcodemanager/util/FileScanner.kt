@@ -1,4 +1,4 @@
-package de.datlag.qrcodemanager
+package de.datlag.qrcodemanager.util
 
 import android.content.Context
 import android.graphics.Bitmap

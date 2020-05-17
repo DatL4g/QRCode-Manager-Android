@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/ScanFragment"
-        android:name="de.datlag.qrcodemanager.ScanFragment"
+        android:name="de.datlag.qrcodemanager.fragments.ScanFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_scan">
 
         <action
             android:id="@+id/action_ScanFragment_to_CreateFragment"
@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/CreateFragment"
-        android:name="de.datlag.qrcodemanager.CreateFragment"
+        android:name="de.datlag.qrcodemanager.fragments.CreateFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_create">
 
         <action
             android:id="@+id/action_CreateFragment_to_ScanFragment"

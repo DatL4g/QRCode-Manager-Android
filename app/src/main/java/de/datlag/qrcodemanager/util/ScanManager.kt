@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.Result
-import de.datlag.qrcodemanager.ScanFragment
+import de.datlag.qrcodemanager.fragments.ScanFragment
 import de.datlag.qrcodemanager.commons.*
 import java.lang.Exception
 

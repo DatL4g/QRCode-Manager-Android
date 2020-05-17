@@ -1,22 +1,14 @@
-package de.datlag.qrcodemanager
+package de.datlag.qrcodemanager.fragments
 
 import android.Manifest
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.net.ConnectivityManager
-import android.net.NetworkSpecifier
-import android.net.wifi.*
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.core.net.ConnectivityManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -27,12 +19,11 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import de.datlag.qrcodemanager.util.FileScanner
+import de.datlag.qrcodemanager.R
 import de.datlag.qrcodemanager.commons.*
-import de.datlag.qrcodemanager.util.NetworkManager
 import de.datlag.qrcodemanager.util.ScanManager
-import kotlinx.android.synthetic.main.fragment_first.*
-import org.json.JSONObject
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_scan.*
 
 
 class ScanFragment : Fragment(), PermissionListener {
@@ -57,7 +48,7 @@ class ScanFragment : Fragment(), PermissionListener {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_first, container, false)
+        return inflater.inflate(R.layout.fragment_scan, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,7 +96,9 @@ class ScanFragment : Fragment(), PermissionListener {
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 ).apply { type = "image/*" }
 
-                startActivityForResult(Intent.createChooser(pickIntent, "Select Image"), GALLERY_REQUEST_CODE)
+                startActivityForResult(Intent.createChooser(pickIntent, "Select Image"),
+                    GALLERY_REQUEST_CODE
+                )
             }
         }
     }
@@ -139,7 +132,8 @@ class ScanFragment : Fragment(), PermissionListener {
         when(requestCode) {
             GALLERY_REQUEST_CODE -> {
                 if (data?.data != null) {
-                    fileScanner.scanFromUri(data.data!!, object: FileScanner.Callback{
+                    fileScanner.scanFromUri(data.data!!, object:
+                        FileScanner.Callback {
                         override fun onResult(result: Result) {
                             scanManager.onScanned(result)
                         }
@@ -161,8 +155,6 @@ class ScanFragment : Fragment(), PermissionListener {
     companion object {
         private const val GALLERY_REQUEST_CODE = 420
 
-        fun newInstance(): ScanFragment {
-            return ScanFragment()
-        }
+        fun newInstance() = ScanFragment()
     }
 }
