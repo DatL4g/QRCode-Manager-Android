@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -65,7 +66,7 @@ class ScanFragment : Fragment(), PermissionListener {
         }
 
         barCodeScanner.viewFinder.setLaserVisibility(false)
-        barCodeScanner.viewFinder.setMaskColor(Color.parseColor("#99000000"))
+        barCodeScanner.viewFinder.setMaskColor(ContextCompat.getColor(saveContext, R.color.scanMaskColor))
         barCodeScanner.statusView.text = String()
         barCodeScanner.statusView.visibility = View.GONE
         barCodeScanner.viewFinder.drawViewfinder()
@@ -94,9 +95,9 @@ class ScanFragment : Fragment(), PermissionListener {
                 val pickIntent = Intent(
                     Intent.ACTION_PICK,
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                ).apply { type = "image/*" }
+                ).apply { type = saveContext.getString(R.string.intent_image_type) }
 
-                startActivityForResult(Intent.createChooser(pickIntent, "Select Image"),
+                startActivityForResult(Intent.createChooser(pickIntent, saveContext.getString(R.string.intent_image_title)),
                     GALLERY_REQUEST_CODE
                 )
             }
@@ -107,19 +108,19 @@ class ScanFragment : Fragment(), PermissionListener {
         when(p0?.name) {
             Manifest.permission.CAMERA -> {
                 MaterialAlertDialogBuilder(saveContext)
-                    .setTitle("Scan Environment")
-                    .setMessage("To scan codes in your environment you have to grant access to your camera")
-                    .setPositiveButton("Grant"){ _, _ -> p1?.continuePermissionRequest() }
-                    .setNegativeButton("Cancel"){ _, _ -> p1?.cancelPermissionRequest() }
+                    .setTitle(saveContext.getString(R.string.permission_camera_title))
+                    .setMessage(saveContext.getString(R.string.permission_camera_message))
+                    .setPositiveButton(saveContext.getString(R.string.grant)){ _, _ -> p1?.continuePermissionRequest() }
+                    .setNegativeButton(saveContext.getString(R.string.cancel)){ _, _ -> p1?.cancelPermissionRequest() }
                     .setOnDismissListener {  }
                     .create().applyAnimation().show()
             }
             Manifest.permission.READ_EXTERNAL_STORAGE -> {
                 MaterialAlertDialogBuilder(saveContext)
-                    .setTitle("Scan Pictures")
-                    .setMessage("To scan pictures you have to grant access to your files")
-                    .setPositiveButton("Grant"){ _, _ -> p1?.continuePermissionRequest() }
-                    .setNegativeButton("Cancel"){ _, _ -> p1?.cancelPermissionRequest() }
+                    .setTitle(saveContext.getString(R.string.permission_storage_read_title))
+                    .setMessage(saveContext.getString(R.string.permission_storage_read_message))
+                    .setPositiveButton(saveContext.getString(R.string.grant)){ _, _ -> p1?.continuePermissionRequest() }
+                    .setNegativeButton(saveContext.getString(R.string.cancel)){ _, _ -> p1?.cancelPermissionRequest() }
                     .create().applyAnimation().show()
             }
         }

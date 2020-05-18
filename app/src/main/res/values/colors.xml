@@ -9,4 +9,6 @@
     <color name="buttonTextColor">#ffffff</color>
     <color name="statusBarColor">#ffffff</color>
     <color name="defaultTextColor">#000000</color>
+
+    <color name="scanMaskColor">#99000000</color>
 </resources>

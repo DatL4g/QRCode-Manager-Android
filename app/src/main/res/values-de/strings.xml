@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="close">Schließen</string>
+    <string name="copy">Kopieren</string>
+    <string name="grant">Erlauben</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="save">Speichern</string>
+    <string name="open_link">Link öffnen</string>
+    <string name="save_network">Netzwerk speichern</string>
+    <string name="send_mail">Mail senden</string>
+    <string name="call_number">Nummer anrufen</string>
+    <string name="send_sms">SMS senden</string>
+    <string name="scan_result">Scan Ergebnis</string>
+    <string name="scan_failed">Scan Fehler</string>
+    <string name="scan_failed_message">Nichts gefunden versuche es mit einem anderen Bild oder probiere es nochmal</string>
+    <string name="create_generated">QRCode erstellt</string>
+    <string name="content_enter_text">Text hier eingeben…</string>
+    <string name="content_enter_ssid">SSID hier eingeben…</string>
+    <string name="content_select_network_security">Sicherheitskonfiguration hier auswählen…</string>
+    <string name="content_enter_password">Passwort hier eingeben…</string>
+    <string name="content_check_network_hidden">Ist Netzwerk versteckt</string>
+    <string name="intent_image_title">Bild auswählen</string>
+    <string name="permission_camera_title">Scan Umgebung</string>
+    <string name="permission_camera_message">Um deine Umgebung zu scannen musst du den Zugriff auf die Kamera erlauben</string>
+    <string name="permission_storage_read_title">Scan Bilder</string>
+    <string name="permission_storage_read_message">Um Bilder zu scannen musst du den Zugriff auf deine Dateien erlauben</string>
+    <string name="menu_text_content">Text</string>
+    <string name="menu_network_content">Netzwerk</string>
+</resources>

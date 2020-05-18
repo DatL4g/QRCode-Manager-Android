@@ -1,6 +1,72 @@
 <resources>
     <string name="app_name" translatable="false">QR Code Manager</string>
     <string name="font_path" translatable="false">fonts/Poppins-Regular.ttf</string>
+    <string name="close">Close</string>
+    <string name="copy">Copy</string>
+    <string name="grant">Grant</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+
+    <string name="open_link">Open link</string>
+    <string name="save_network">Save Network</string>
+    <string name="send_mail">Send Mail</string>
+    <string name="call_number">Call Number</string>
+    <string name="send_sms">Send SMS</string>
+
+    <string-array name="wifi_tokens">
+        <item>wifi:</item>
+    </string-array>
+
+    <string-array name="mail_tokens">
+        <item>mailto:</item>
+        <item>matmsg:</item>
+    </string-array>
+
+    <string-array name="number_tokens">
+        <item>tel:</item>
+    </string-array>
+
+    <string-array name="sms_tokens">
+        <item>smsto:</item>
+    </string-array>
+
+    <string name="network_secure" translatable="false">secure</string>
+    <string name="network_wep" translatable="false">wep</string>
+    <string name="network_wpa" translatable="false">wpa</string>
+    <string name="network_password" translatable="false">password</string>
+    <string name="network_ssid" translatable="false">ssid</string>
+    <string name="network_hidden" translatable="false">hidden</string>
+    
+    <string name="scan_result">Scan Result</string>
+    <string name="scan_failed">Scan Failed</string>
+    <string name="scan_failed_message">Nothing found try a different image or try again</string>
+
+    <string name="create_generated">Generated QRCode</string>
+    <string name="create_qr_prefix" translatable="false">QRCode_</string>
+    <string name="create_jpg_suffix" translatable="false">.jpeg</string>
+    <string name="create_jpg_mime" translatable="false">image/jpeg</string>
+    <string name="create_images_folder" translatable="false">QRCode</string>
+
+    <string name="content_network_nopass" translatable="false">nopass</string>
+    <string name="content_network_wep" translatable="false">WEP</string>
+    <string name="content_network_wpa" translatable="false">WPA</string>
+
+    <string name="content_enter_text">Enter Text here…</string>
+    <string name="content_enter_ssid">Enter SSID here…</string>
+    <string name="content_select_network_security">Select Security Configuration here…</string>
+    <string name="content_enter_password">Enter Password here…</string>
+    <string name="content_check_network_hidden">Is Network hidden</string>
+
+    <string name="intent_image_type" translatable="false">image/*</string>
+    <string name="intent_image_title">Select Image</string>
+
+    <string name="permission_camera_title">Scan Environment</string>
+    <string name="permission_camera_message">To scan in your environment you have to grant access to your camera</string>
+    <string name="permission_storage_read_title">Scan Pictures</string>
+    <string name="permission_storage_read_message">To scan pictures you have to grant access to your files</string>
+
+    <string name="menu_text_content">Text</string>
+    <string name="menu_network_content">Network</string>
 
     <string-array name="security_spinner_array">
         <item>None</item>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.Result
+import de.datlag.qrcodemanager.R
 import de.datlag.qrcodemanager.fragments.ScanFragment
 import de.datlag.qrcodemanager.commons.*
 import java.lang.Exception
@@ -13,11 +14,11 @@ class ScanManager(private val context: Context) : ScanFragment.Callback {
     private var scanResultShowing: Boolean = false
 
     override fun onScanned(result: Result) {
-        scannerDialog("Scan Result", result.text)
+        scannerDialog(context.getString(R.string.scan_result), result.text)
     }
 
     override fun onFailure(exception: Exception?) {
-        scannerDialog("Scan Failed", "Nothing found try a different image or try again")
+        scannerDialog(context.getString(R.string.scan_failed), context.getString(R.string.scan_failed_message))
     }
 
     private fun scannerDialog(title: String, message: String) {
@@ -26,18 +27,18 @@ class ScanManager(private val context: Context) : ScanFragment.Callback {
                 .setTitle(title)
                 .setMessage(message)
                 .setOnCancelListener { scanResultShowing = false }
-                .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
-                .setNegativeButton("Copy") { dialog, _ ->
+                .setPositiveButton(context.getString(R.string.close)) { dialog, _ -> dialog.cancel() }
+                .setNegativeButton(context.getString(R.string.copy)) { dialog, _ ->
                     dialog.cancel()
                     context.copyToClipboard(message)
                 }
 
             val urls = message.getURLS()
             val linkBuilder = MaterialAlertDialogBuilder(context)
-                .setTitle("Open a link")
+                .setTitle(context.getString(R.string.open_link))
                 .setItems(urls) { _, pos -> context.browserIntent(urls[pos]) }
                 .setOnCancelListener { scanResultShowing = false }
-                .setPositiveButton("Close") { linkDialog, _ ->
+                .setPositiveButton(context.getString(R.string.close)) { linkDialog, _ ->
                     linkDialog.dismiss()
                     scanResultShowing = true
                     builder.create().applyAnimation().apply {
@@ -48,37 +49,37 @@ class ScanManager(private val context: Context) : ScanFragment.Callback {
 
             when (contentChecker(message)) {
                 CONTENT_LINK -> {
-                    builder.setNeutralButton("Open link") { _, _ ->
+                    builder.setNeutralButton(context.getString(R.string.open_link)) { _, _ ->
                         context.browserIntent(urls[0])
                     }
                 }
                 CONTENT_LINKS -> {
-                    builder.setNeutralButton("Open link") { dialog, _ ->
+                    builder.setNeutralButton(context.getString(R.string.open_link)) { dialog, _ ->
                         dialog.dismiss()
                         scanResultShowing = true
                         linkBuilder.create().applyAnimation().show()
                     }
                 }
                 CONTENT_WIFI -> {
-                    builder.setNeutralButton("Save Network") { dialog, _ ->
+                    builder.setNeutralButton(context.getString(R.string.save_network)) { dialog, _ ->
                         dialog.cancel()
-                        Log.e("Wifi saved", NetworkManager().saveNetwork(context, message.getWiFiData()).toString())
+                        NetworkManager().saveNetwork(context, message.getWiFiData())
                     }
                 }
                 CONTENT_EMAIL -> {
-                    builder.setNeutralButton("Send Mail") { dialog, _ ->
+                    builder.setNeutralButton(context.getString(R.string.send_mail)) { dialog, _ ->
                         dialog.cancel()
                         context.startActivity(message.getMailIntent())
                     }
                 }
                 CONTENT_PHONE -> {
-                    builder.setNeutralButton("Call Number") { dialog, _ ->
+                    builder.setNeutralButton(context.getString(R.string.call_number)) { dialog, _ ->
                         dialog.cancel()
                         context.startActivity(message.getPhoneIntent())
                     }
                 }
                 CONTENT_SMS -> {
-                    builder.setNeutralButton("Send SMS") { dialog, _ ->
+                    builder.setNeutralButton(context.getString(R.string.send_sms)) { dialog, _ ->
                         dialog.cancel()
                         context.startActivity(message.getSMSIntent())
                     }
@@ -102,16 +103,16 @@ class ScanManager(private val context: Context) : ScanFragment.Callback {
                     CONTENT_LINKS
                 }
             }
-            message.hasStartToken("wifi:") -> {
+            message.hasStartToken(*context.resources.getStringArray(R.array.wifi_tokens)) -> {
                 return CONTENT_WIFI
             }
-            message.hasStartToken("mailto:", "matmsg:") -> {
+            message.hasStartToken(*context.resources.getStringArray(R.array.mail_tokens)) -> {
                 return CONTENT_EMAIL
             }
-            message.hasStartToken("tel:") -> {
+            message.hasStartToken(*context.resources.getStringArray(R.array.number_tokens)) -> {
                 return CONTENT_PHONE
             }
-            message.hasStartToken("smsto:") -> {
+            message.hasStartToken(*context.resources.getStringArray(R.array.sms_tokens)) -> {
                 return CONTENT_SMS
             }
             else -> return CONTENT_NONE

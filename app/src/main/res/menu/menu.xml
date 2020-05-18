@@ -3,9 +3,9 @@
     <item android:enabled="true"
         android:id="@+id/textContent"
         android:icon="@drawable/ic_text_fields_white_24dp"
-        android:title="Text" />
+        android:title="@string/menu_text_content" />
     <item android:enabled="true"
         android:id="@+id/wifiContent"
-        android:icon="@drawable/ic_signal_wifi_2_bar_lock_black_24dp"
-        android:title="Network" />
+        android:icon="@drawable/ic_signal_wifi_2_bar_lock_white_24dp"
+        android:title="@string/menu_network_content" />
 </menu>

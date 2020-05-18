@@ -9,6 +9,7 @@ import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
+import de.datlag.qrcodemanager.R
 import de.datlag.qrcodemanager.commons.getConnectivityManager
 import de.datlag.qrcodemanager.commons.getWifiManager
 import de.datlag.qrcodemanager.commons.toLower
@@ -18,11 +19,11 @@ import org.json.JSONObject
 class NetworkManager {
 
     fun saveNetwork(context: Context, json: JSONObject): Boolean {
-        val security: Int = when (json.getString("secure").toLower()) {
-            "wep" -> {
+        val security: Int = when (json.getString(context.getString(R.string.network_secure)).toLower()) {
+            context.getString(R.string.network_wep) -> {
                 WIFI_SECURITY_WEP
             }
-            "wpa" -> {
+            context.getString(R.string.network_wpa) -> {
                 WIFI_SECURITY_WPA
             }
             else -> {
@@ -43,19 +44,19 @@ class NetworkManager {
 
         wifiManager.isWifiEnabled = true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            connectivityManager.requestNetwork(createNetworkSpecifier(json), object: ConnectivityManager.NetworkCallback() {})
+            connectivityManager.requestNetwork(createNetworkSpecifier(context, json), object: ConnectivityManager.NetworkCallback() {})
             return true
         } else {
-            val wifiConfig = createWifiConfig(json, security)
+            val wifiConfig = createWifiConfig(context, json, security)
             var networkId = wifiManager.addNetwork(wifiConfig)
 
             if (networkId == -1) {
                 if (security == WIFI_SECURITY_WEP) {
-                    wifiConfig.wepKeys[0] = json.getString("password")
+                    wifiConfig.wepKeys[0] = json.getString(context.getString(R.string.network_password))
                     networkId = wifiManager.addNetwork(wifiConfig)
                     return networkId != -1
                 } else if (security == WIFI_SECURITY_WPA) {
-                    wifiConfig.preSharedKey = json.getString("password")
+                    wifiConfig.preSharedKey = json.getString(context.getString(R.string.network_password))
                     networkId = wifiManager.addNetwork(wifiConfig)
                     return networkId != -1
                 }
@@ -68,10 +69,10 @@ class NetworkManager {
 
     @TargetApi(Build.VERSION_CODES.Q)
     @RequiresApi(Build.VERSION_CODES.Q)
-    private fun createNetworkSpecifier(json: JSONObject): NetworkRequest {
-        val ssid = json.getString("ssid")
-        val password = json.getString("password")
-        val hidden = json.getBoolean("hidden")
+    private fun createNetworkSpecifier(context: Context, json: JSONObject): NetworkRequest {
+        val ssid = json.getString(context.getString(R.string.network_ssid))
+        val password = json.getString(context.getString(R.string.network_password))
+        val hidden = json.getBoolean(context.getString(R.string.network_hidden))
 
         val wifiNetworkSpecifier = WifiNetworkSpecifier.Builder()
             .setSsid(ssid)
@@ -86,10 +87,10 @@ class NetworkManager {
             .build()
     }
 
-    private fun createWifiConfig(json: JSONObject, security: Int): WifiConfiguration {
-        val ssid = json.getString("ssid")
-        val password = json.getString("password")
-        val hidden = json.getBoolean("hidden")
+    private fun createWifiConfig(context: Context, json: JSONObject, security: Int): WifiConfiguration {
+        val ssid = json.getString(context.getString(R.string.network_ssid))
+        val password = json.getString(context.getString(R.string.network_password))
+        val hidden = json.getBoolean(context.getString(R.string.network_hidden))
         val wifiConfig = WifiConfiguration()
 
         wifiConfig.allowedAuthAlgorithms.clear()

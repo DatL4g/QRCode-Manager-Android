@@ -57,9 +57,9 @@ class NetworkContentFragment : ContentFragment() {
 
     override fun getContent(): String {
         val security = when (securitySpinner.selectedItemPosition) {
-            0 -> "nopass"
-            1 -> "WEP"
-            else -> "WPA"
+            0 -> saveContext.getString(R.string.content_network_nopass)
+            1 -> saveContext.getString(R.string.content_network_wep)
+            else -> saveContext.getString(R.string.content_network_wpa)
         }
         return "WIFI:T:$security;S:${ssidEditText.text.toString()};P:${passwordEditText.text.toString()};H:${hiddenCheckbox.isChecked};"
     }
