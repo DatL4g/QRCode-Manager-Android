@@ -9,15 +9,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.os.EnvironmentCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.karumi.dexter.Dexter
@@ -31,12 +29,12 @@ import de.datlag.qrcodemanager.commons.applyAnimation
 import de.datlag.qrcodemanager.fragments.childs.ContentFragment
 import de.datlag.qrcodemanager.fragments.childs.NetworkContentFragment
 import de.datlag.qrcodemanager.fragments.childs.TextContentFragment
+import de.datlag.qrcodemanager.util.showInstall
 import kotlinx.android.synthetic.main.fragment_create.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
-import java.lang.Exception
 import java.util.*
 
 class CreateFragment : Fragment(), PermissionListener {
@@ -93,9 +91,11 @@ class CreateFragment : Fragment(), PermissionListener {
                         .setView(imageView)
                         .setPositiveButton(saveContext.getString(R.string.close), null)
                         .setNegativeButton(saveContext.getString(R.string.save)) { _, _ ->
-                            Dexter.withContext(saveContext)
-                                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                .withListener(this@CreateFragment).check()
+                            if(!requireActivity().showInstall()) {
+                                Dexter.withContext(saveContext)
+                                    .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    .withListener(this@CreateFragment).check()
+                            }
                         }
                         .create().applyAnimation().show()
                 }

@@ -3,7 +3,6 @@ package de.datlag.qrcodemanager.fragments
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -20,10 +19,11 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
-import de.datlag.qrcodemanager.util.FileScanner
 import de.datlag.qrcodemanager.R
-import de.datlag.qrcodemanager.commons.*
+import de.datlag.qrcodemanager.commons.applyAnimation
+import de.datlag.qrcodemanager.util.FileScanner
 import de.datlag.qrcodemanager.util.ScanManager
+import de.datlag.qrcodemanager.util.showInstall
 import kotlinx.android.synthetic.main.fragment_scan.*
 
 
@@ -38,7 +38,7 @@ class ScanFragment : Fragment(), PermissionListener {
 
         saveContext = context ?: activity ?: requireContext()
         fileScanner = FileScanner(saveContext)
-        scanManager = ScanManager(saveContext)
+        scanManager = ScanManager(requireActivity())
 
         Dexter.withContext(saveContext)
             .withPermission(Manifest.permission.CAMERA)
@@ -56,9 +56,11 @@ class ScanFragment : Fragment(), PermissionListener {
         super.onViewCreated(view, savedInstanceState)
 
         fabOpen.setOnClickListener {
-            Dexter.withContext(saveContext)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(this@ScanFragment).check()
+            if (!requireActivity().showInstall()) {
+                Dexter.withContext(saveContext)
+                    .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .withListener(this@ScanFragment).check()
+            }
         }
 
         fabCreate.setOnClickListener {

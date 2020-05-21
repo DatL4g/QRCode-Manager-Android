@@ -7,7 +7,6 @@ import android.net.Uri
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 import java.io.InputStream
-import java.lang.Exception
 import java.util.*
 
 class FileScanner(private val context: Context) {
