@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.Result
 import com.karumi.dexter.Dexter
@@ -40,6 +42,8 @@ class ScanFragment : Fragment(), PermissionListener {
         fileScanner = FileScanner(saveContext)
         scanManager = ScanManager(requireActivity())
 
+        MobileAds.initialize(saveContext) { }
+
         Dexter.withContext(saveContext)
             .withPermission(Manifest.permission.CAMERA)
             .withListener(this).check()
@@ -54,6 +58,8 @@ class ScanFragment : Fragment(), PermissionListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adView.loadAd(AdRequest.Builder().build())
 
         fabOpen.setOnClickListener {
             if (!requireActivity().showInstall()) {

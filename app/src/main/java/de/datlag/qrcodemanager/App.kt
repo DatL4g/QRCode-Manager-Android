@@ -1,11 +1,11 @@
 package de.datlag.qrcodemanager
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
 
-class App : Application() {
+class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()

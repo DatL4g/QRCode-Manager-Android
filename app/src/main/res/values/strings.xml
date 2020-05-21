@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name" translatable="false">QR Code Manager</string>
+    <string name="app_name" translatable="false">QRCode Manager</string>
     <string name="font_path" translatable="false">fonts/Poppins-Regular.ttf</string>
+    <string name="app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="scan_ad_banner" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+
     <string name="close">Close</string>
     <string name="copy">Copy</string>
     <string name="grant">Grant</string>
