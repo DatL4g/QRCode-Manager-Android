@@ -1,5 +1,6 @@
 package de.datlag.qrcodemanager.fragments
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -19,6 +20,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import de.datlag.qrcodemanager.R
 import de.datlag.qrcodemanager.commons.applyAnimation
 import de.datlag.qrcodemanager.fragments.childs.ContentFragment
@@ -32,12 +39,13 @@ import java.io.OutputStream
 import java.lang.Exception
 import java.util.*
 
-class CreateFragment : Fragment() {
+class CreateFragment : Fragment(), PermissionListener {
 
     private lateinit var textContentFragment: TextContentFragment
     private lateinit var networkContentFragment: NetworkContentFragment
     private var activeFragment: ContentFragment? = null
     private lateinit var saveContext: Context
+    private var saveBitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,16 +86,16 @@ class CreateFragment : Fragment() {
             activeFragment?.getContent().run {
                 if (!this.isNullOrBlank() && !this.isNullOrEmpty()) {
                     val barCodeEncoder = BarcodeEncoder()
-                    val bitmap = barCodeEncoder.encodeBitmap(activeFragment?.getContent(), BarcodeFormat.QR_CODE, 800, 800)
-                    val imageView = ImageView(saveContext).apply { setImageBitmap(bitmap) }
+                    saveBitmap = barCodeEncoder.encodeBitmap(activeFragment?.getContent(), BarcodeFormat.QR_CODE, 800, 800)
+                    val imageView = ImageView(saveContext).apply { setImageBitmap(saveBitmap) }
                     MaterialAlertDialogBuilder(saveContext)
                         .setTitle(saveContext.getString(R.string.create_generated))
                         .setView(imageView)
                         .setPositiveButton(saveContext.getString(R.string.close), null)
                         .setNegativeButton(saveContext.getString(R.string.save)) { _, _ ->
-                            try {
-                                saveImage(bitmap, saveContext.getString(R.string.create_qr_prefix) + Calendar.getInstance().timeInMillis)
-                            } catch (ignored: Exception) { }
+                            Dexter.withContext(saveContext)
+                                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                .withListener(this@CreateFragment).check()
                         }
                         .create().applyAnimation().show()
                 }
@@ -142,4 +150,29 @@ class CreateFragment : Fragment() {
     companion object {
         fun newInstance() = CreateFragment()
     }
+
+    override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+        when(p0?.permissionName) {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE -> {
+                try {
+                    saveBitmap?.let { saveImage(it, saveContext.getString(R.string.create_qr_prefix) + Calendar.getInstance().timeInMillis) }
+                } catch (ignored: Exception) { }
+            }
+        }
+    }
+
+    override fun onPermissionRationaleShouldBeShown(p0: PermissionRequest?, p1: PermissionToken?) {
+        when(p0?.name) {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE -> {
+                MaterialAlertDialogBuilder(saveContext)
+                    .setTitle(saveContext.getString(R.string.permission_storage_write_title))
+                    .setMessage(saveContext.getString(R.string.permission_storage_write_message))
+                    .setPositiveButton(saveContext.getString(R.string.grant)){ _, _ -> p1?.continuePermissionRequest() }
+                    .setNegativeButton(saveContext.getString(R.string.cancel)){ _, _ -> p1?.cancelPermissionRequest() }
+                    .create().applyAnimation().show()
+            }
+        }
+    }
+
+    override fun onPermissionDenied(p0: PermissionDeniedResponse?) { }
 }

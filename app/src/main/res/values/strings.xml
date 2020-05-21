@@ -64,6 +64,8 @@
     <string name="permission_camera_message">To scan in your environment you have to grant access to your camera</string>
     <string name="permission_storage_read_title">Scan Pictures</string>
     <string name="permission_storage_read_message">To scan pictures you have to grant access to your files</string>
+    <string name="permission_storage_write_title">Save Picture</string>
+    <string name="permission_storage_write_message">To save pictures you have to grant access to your files</string>
 
     <string name="menu_text_content">Text</string>
     <string name="menu_network_content">Network</string>

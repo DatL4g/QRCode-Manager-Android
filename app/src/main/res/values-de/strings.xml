@@ -26,4 +26,6 @@
     <string name="permission_storage_read_message">Um Bilder zu scannen musst du den Zugriff auf deine Dateien erlauben</string>
     <string name="menu_text_content">Text</string>
     <string name="menu_network_content">Netzwerk</string>
+    <string name="permission_storage_write_title">Speicher Bilder</string>
+    <string name="permission_storage_write_message">Um Bilder zu speichern musst du den Zugriff auf deine Dateien erlauben</string>
 </resources>
