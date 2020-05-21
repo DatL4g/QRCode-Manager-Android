@@ -1,7 +1,6 @@
 package de.datlag.qrcodemanager.commons
 
 import android.os.Build
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
 

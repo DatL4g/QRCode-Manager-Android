@@ -3,9 +3,7 @@ package de.datlag.qrcodemanager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import de.datlag.qrcodemanager.commons.*
-
-import kotlinx.android.synthetic.main.activity_main.*
+import de.datlag.qrcodemanager.commons.applyStatusBarColor
 
 class MainActivity : AppCompatActivity() {
 
